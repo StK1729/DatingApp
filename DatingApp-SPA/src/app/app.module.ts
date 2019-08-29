@@ -24,6 +24,9 @@ import { MemberCardComponent } from './members/member-card/member-card.component
 import { MemberDetailsComponent } from './members/member-details/member-details.component';
 import { MemberDetailResolver } from './resolvers/member-detail.resolver';
 import { MemberListResolver } from './resolvers/member-list.resolver';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MemberEditResolver } from './resolvers/member-edit-resolver';
+import { PreventUnsavedChanges } from './guards/prevent-unsaved-changes.guard';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -47,7 +50,8 @@ export class CustomHammerConfig extends HammerGestureConfig {
     ListsComponent,
     MessagesComponent,
     MemberCardComponent,
-    MemberDetailsComponent
+    MemberDetailsComponent,
+    MemberEditComponent
   ],
   imports: [
     BrowserModule,
@@ -60,8 +64,8 @@ export class CustomHammerConfig extends HammerGestureConfig {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:5001'],
-        blacklistedRoutes: ['localhost:5001/api/auth']
+        whitelistedDomains: ['localhost:5000'],
+        blacklistedRoutes: ['localhost:5000/api/auth']
       }
     })
   ],
@@ -73,7 +77,9 @@ export class CustomHammerConfig extends HammerGestureConfig {
     UserService,
     MemberDetailResolver,
     MemberListResolver,
-    { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }
+    MemberEditResolver,
+    { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
+    PreventUnsavedChanges
   ],
   bootstrap: [AppComponent]
 })

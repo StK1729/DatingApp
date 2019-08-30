@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AlertifyService } from '../services/alertify.service';
 import { Router } from '@angular/router';
@@ -9,39 +9,43 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-
   model: any = {};
+  photoUrl: string;
 
   constructor(private authService: AuthService, private alertify: AlertifyService, private router: Router) { }
 
   ngOnInit() {
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
-  login(){
-    this.authService.login(this.model).subscribe((next)=>{
+  login() {
+    this.authService.login(this.model).subscribe((next) => {
       this.alertify.success('Logged in successfully');
-    }, (error)=>{
+    }, (error) => {
       this.alertify.error(error);
     }, () => {
       this.router.navigate(['/members']);
-    })
+    });
   }
 
-  loggedIn(){
+  loggedIn() {
     return this.authService.loggedIn();
   }
 
-  isLoggedIn(): string{
-    if(this.authService.loggedIn()){
-      return 'members'
+  isLoggedIn(): string {
+    if (this.authService.loggedIn()) {
+      return 'members';
     }
     return '';
   }
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.authService.decodedToken = null;
+    this.authService.currentUser = null;
     this.alertify.notify('logged out');
-    this.router.navigate(['/home'])
+    this.router.navigate(['/home']);
   }
 
 }

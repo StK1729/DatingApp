@@ -5,6 +5,7 @@ import { AlertifyService } from 'src/app/services/alertify.service';
 import { NgForm } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { Photo } from 'src/app/models/photo';
 
 @Component({
   selector: 'app-member-edit',
@@ -12,30 +13,37 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./member-edit.component.css']
 })
 export class MemberEditComponent implements OnInit {
-  @ViewChild('editForm',{static: true}) editForm: NgForm;
+  user: User;
+  @ViewChild('editForm', { static: true }) editForm: NgForm;
   @HostListener('window:beforeunload', ['$event'])
-  unloadNotification($event: any){
-    if(this.editForm.dirty){
+  photoUrl: string;
+  unloadNotification($event: any) {
+    if (this.editForm.dirty) {
       $event.returnValue = true;
     }
   }
-  user: User;
 
-  constructor(private route: ActivatedRoute, private alertify: AlertifyService, private userService: UserService, private authService: AuthService) { }
+  constructor(private route: ActivatedRoute, private alertify: AlertifyService,
+              private userService: UserService, private authService: AuthService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.user = data['user'];
-    })
+    });
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
   updateUser() {
-    this.userService.updateUser(this.authService.decodedToken.nameid, this.user).subscribe((next)=> {
+    this.userService.updateUser(this.authService.decodedToken.nameid, this.user).subscribe((next) => {
       this.alertify.success('Profile updated successfully');
       this.editForm.reset(this.user);
-    }, (error)=>{
+    }, (error) => {
       this.alertify.error(error);
     });
   }
+
+  /* updateUsersMainPhoto(photo: Photo) {
+    this.user.photoUrl = photo.url;
+  } */
 
 }

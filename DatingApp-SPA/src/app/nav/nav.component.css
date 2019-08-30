@@ -5,3 +5,9 @@
 .dropdown-item{
     color: #1A1A1A !important;
 }
+
+.thumbnail {
+    max-height: 50px;
+    border: 2px solid white;
+    display: inline;
+}

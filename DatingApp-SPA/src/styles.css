@@ -5,6 +5,7 @@
 @import "../node_modules/alertifyjs/build/css/themes/bootstrap.min.css";
 @import '../node_modules/bootswatch/dist/lux/bootstrap.min.css';
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css";
 
 body {
   font-family: "Roboto";

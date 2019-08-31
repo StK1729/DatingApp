@@ -17,13 +17,13 @@ export class MemberListComponent implements OnInit {
     this.route.data.subscribe((data) => this.users = data['users']);
   }
 
-  loadUsers(){
+  loadUsers() {
     this.userService.getUsers()
-    .subscribe((users: User[])=>{
-      this.users = users;
-    }, (error) => {
-      this.alertifyService.error(error);
-    })
+      .subscribe((users: User[]) => {
+        this.users = users;
+      }, (error) => {
+        this.alertifyService.error(error);
+      });
   }
 
 }

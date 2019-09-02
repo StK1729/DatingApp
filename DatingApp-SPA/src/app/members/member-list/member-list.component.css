@@ -1,0 +1,11 @@
+select {
+    padding: 0 5%;
+}
+
+input[type="number"] {
+    padding: 0 10%;
+}
+button[name="orderBy"]{
+    padding-left: 15px;
+    padding-right: 15px;
+}

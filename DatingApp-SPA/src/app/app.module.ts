@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BsDropdownModule, TabsModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule, BsDatepickerModule, PaginationModule, ButtonsModule } from 'ngx-bootstrap';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -31,6 +31,7 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { MemberEditResolver } from './resolvers/member-edit-resolver';
 import { PreventUnsavedChanges } from './guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
+import { ListResolver } from './resolvers/lists.resolver';
 
 
 export function tokenGetter() {
@@ -62,6 +63,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
   ],
   imports: [
     BrowserModule,
+    ButtonsModule.forRoot(),
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
@@ -70,6 +72,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
     BsDatepickerModule.forRoot(),
     TabsModule.forRoot(),
     RouterModule.forRoot(appRoutes),
+    PaginationModule.forRoot(),
     NgxGalleryModule,
     FileUploadModule,
     JwtModule.forRoot({
@@ -88,9 +91,10 @@ export class CustomHammerConfig extends HammerGestureConfig {
     UserService,
     MemberDetailResolver,
     MemberListResolver,
+    ListResolver,
     MemberEditResolver,
     { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
-    PreventUnsavedChanges
+    PreventUnsavedChanges,
   ],
   bootstrap: [AppComponent]
 })
